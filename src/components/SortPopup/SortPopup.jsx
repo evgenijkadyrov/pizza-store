@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 
-export const SortPopup = ({items,onClickItem}) => {
+export const SortPopup = React.memo(({items,onClickItem}) => {
     const [visiblePopup, setVisiblePopup]=useState(false)
-    const [activeItem,setActiveItem]=useState(items[0])
+    const [activeItem,setActiveItem]=useState(items[0].name)
     const sortRef=useRef()
     const setToggleSortVisible=()=>{
         setVisiblePopup(!visiblePopup)
@@ -13,8 +13,10 @@ export const SortPopup = ({items,onClickItem}) => {
        }
     }
     const onSelectItem=(item)=>{
-        setActiveItem(item)
+        setActiveItem(item.name)
         setVisiblePopup(false)
+        onClickItem(item)
+
     }
     useEffect(()=>{
         document.body.addEventListener('click',handleOutsideClick)
@@ -38,15 +40,15 @@ export const SortPopup = ({items,onClickItem}) => {
             </div>
             {visiblePopup && <div className="sort__popup">
                 <ul>
-                    {items.map((item,index)=><li className={activeItem===item?'active':''}
-                                                 key={`${item}${index}`}
+                    {items.map((item,index)=><li className={activeItem===item.name?'active':''}
+                                                 key={`${item.type}${index}`}
                                                  onClick={()=>onSelectItem(item)}
-                    >{item}</li>)}
+                    >{item.name}</li>)}
 
                 </ul>
             </div>}
         </div>
 
     );
-};
+});
 
