@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import classNames from 'classnames'
+import {useSelector} from "react-redux";
 
 export const PizzaBlock = ({name='no name', imageUrl, price, sizes, types}) => {
 
@@ -7,6 +8,7 @@ export const PizzaBlock = ({name='no name', imageUrl, price, sizes, types}) => {
     const availableSizes = ['26', '30', '40']
     const [selectSize, setSelectSize] = useState(sizes[0])
     const [selectType, setSelectType] = useState(types[0])
+    const isLoaded = useSelector((state) => state.pizzas.isLoaded)
     const onSelectItem = (size) => {
         setSelectSize(size)
     }

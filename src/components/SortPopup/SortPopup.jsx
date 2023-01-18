@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 
-export const SortPopup = React.memo(({items,onClickItem}) => {
+export const SortPopup = React.memo(({items,onClickItem,activeItem}) => {
     const [visiblePopup, setVisiblePopup]=useState(false)
-    const [activeItem,setActiveItem]=useState(items[0].name)
+
     const sortRef=useRef()
     const setToggleSortVisible=()=>{
         setVisiblePopup(!visiblePopup)
@@ -13,7 +13,7 @@ export const SortPopup = React.memo(({items,onClickItem}) => {
        }
     }
     const onSelectItem=(item)=>{
-        setActiveItem(item.name)
+
         setVisiblePopup(false)
         onClickItem(item)
 
@@ -36,7 +36,7 @@ export const SortPopup = React.memo(({items,onClickItem}) => {
                     />
                 </svg>
                 <b  >Сортировка по:</b>
-                <span onClick={setToggleSortVisible}>{activeItem}</span>
+                <span onClick={setToggleSortVisible}>{activeItem.name}</span>
             </div>
             {visiblePopup && <div className="sort__popup">
                 <ul>

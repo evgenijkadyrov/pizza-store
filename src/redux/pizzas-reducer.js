@@ -1,4 +1,7 @@
+import {pizzasAPI} from "./api";
+
 const SET_PIZZAS = 'SET-PIZZAS'
+const IS_LOADED = 'IS-LOADED'
 
 
 const initialState = {
@@ -12,7 +15,7 @@ const initialState = {
         "category": 0,
         "rating": 4
     },],
-    isLoaded:false
+    isLoaded: false
 
 }
 
@@ -22,14 +25,30 @@ export const setPizzas = (items) => {
         payload: items
     }
 }
-const action=setPizzas
+const isLoaded = (value) => {
+    return  {
+        type: IS_LOADED,
+        payload:value
+    }
+}
+const action = setPizzas | isLoaded
 
 export const pizzasReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_PIZZAS:
             return {...state, items: action.payload}
-
+        case IS_LOADED:
+            return {...state, isLoaded: action.payload}
         default:
             return state
     }
+}
+export const fetchPizzas = (activeCategory, activeSortBy) => (dispatch) => {
+    dispatch(isLoaded(false))
+    pizzasAPI.getPizzas(activeCategory, activeSortBy).then(response => {
+        dispatch(setPizzas(response.data))
+        dispatch(isLoaded(true))
+
+    })
+
 }

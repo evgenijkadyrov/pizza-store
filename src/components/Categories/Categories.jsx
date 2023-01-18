@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 
-export const Categories =React.memo( ({items, onClickItem}) => {
-    const [activeItem, setActiveItem] = useState(null)
+export const Categories =React.memo( ({items, onClickItem,activeItem}) => {
+
 
     const onSelectItem = (index) => {
-        setActiveItem(index)
+
         onClickItem(index)
     }
     return (

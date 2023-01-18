@@ -3,26 +3,8 @@ import {Header} from "./components";
 import {Home} from "./pages/Home";
 import {Route, Routes} from "react-router-dom";
 import {Cart} from "./pages/Cart";
-import axios from "axios";
-import {useEffect} from "react";
-import {useDispatch} from "react-redux";
-import {setPizzas} from "./redux/pizzas-reducer";
-
-
-const pizzasAPI = {
-    getPizzas() {
-        return axios.get('http://localhost:3001/pizzas')
-    }
-}
 
 function App() {
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        pizzasAPI.getPizzas().then(response => {
-            dispatch(setPizzas(response.data))
-        })
-    }, [])
 
     return (
         <div className="App">

@@ -2,7 +2,7 @@ const SET_SORT_BY = 'SET-SORT-BY'
 const SET_CATEGORIES = 'SET-CATEGORIES'
 
 const initialState = {
-    categories: 0,
+    categories: null,
     sortBy: {name:'популярная', type:'popular'}
 }
 
