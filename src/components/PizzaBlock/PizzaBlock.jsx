@@ -1,19 +1,32 @@
 import React, {useState} from 'react';
 import classNames from 'classnames'
-import {useSelector} from "react-redux";
+import {Button} from "../Button/Button";
 
-export const PizzaBlock = ({name='no name', imageUrl, price, sizes, types}) => {
+export const PizzaBlock = ({
+                               id,
+                               name = 'no name',
+                               imageUrl,
+                               price,
+                               sizes,
+                               types,
+                               onAddPizza,
+    addedCount
+                           }) => {
 
     const availableTypes = ['тонкое', 'традиционное']
     const availableSizes = ['26', '30', '40']
     const [selectSize, setSelectSize] = useState(sizes[0])
     const [selectType, setSelectType] = useState(types[0])
-    const isLoaded = useSelector((state) => state.pizzas.isLoaded)
+
     const onSelectItem = (size) => {
         setSelectSize(size)
     }
     const onSelectType = (index) => {
         setSelectType(index)
+    }
+    const handleAddPizza = () => {
+
+        onAddPizza({id, name, imageUrl,price, selectSize, selectType:availableTypes[selectType]})
     }
     return (
 
@@ -30,7 +43,7 @@ export const PizzaBlock = ({name='no name', imageUrl, price, sizes, types}) => {
                                                              onClick={() => onSelectType(index)}
                                                              className={classNames({
                                                                  active: selectType == index,
-                                                                 disabled:!types.includes(index)
+                                                                 disabled: !types.includes(index)
                                                              })}>{type}</li>)}
 
                 </ul>
@@ -48,7 +61,7 @@ export const PizzaBlock = ({name='no name', imageUrl, price, sizes, types}) => {
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">от {price}</div>
-                <div className="button button--outline button--add">
+                <Button className=" button--add" onClick={handleAddPizza} >
                     <svg
                         width="12"
                         height="12"
@@ -61,9 +74,9 @@ export const PizzaBlock = ({name='no name', imageUrl, price, sizes, types}) => {
                             fill="white"
                         />
                     </svg>
-                    <span>Добавить</span>
-                    <i>2</i>
-                </div>
+                    <span >Добавить</span>
+                    {addedCount&& <i>{addedCount}</i>}
+                </Button>
             </div>
         </div>
 

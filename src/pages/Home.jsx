@@ -4,13 +4,21 @@ import {useDispatch, useSelector} from "react-redux";
 import {setCategories, setSortBy} from "../redux/filters-reducer";
 import {fetchPizzas} from "../redux/pizzas-reducer";
 import LoadingBlock from "../components/PizzaBlock/LoadingBlok";
+import {addPizzaToCart} from "../redux/cart-reducer";
 
 
 export const Home = () => {
-    const items = useSelector((state) => state.pizzas.items)
-    const activeCategory = useSelector((state) => state.filters.categories)
-    const activeSortBy = useSelector((state) => state.filters.sortBy)
-    const isLoaded = useSelector((state) => state.pizzas.isLoaded)
+    const {items,isLoaded} = useSelector(({pizzas}) => ({
+        items:pizzas.items,
+        isLoaded:pizzas.isLoaded
+    }))
+    const {activeCategory,activeSortBy}=useSelector(({filters})=>({
+        activeCategory:filters.categories,
+        activeSortBy:filters.sortBy
+    }))
+    const cartItems=useSelector((state)=>state.cart.items)
+
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -22,6 +30,9 @@ export const Home = () => {
     const onSelectedSort = useCallback((item) => {
         dispatch(setSortBy(item))
     }, [])
+    const handleAddPizza=(obj)=>{
+       dispatch(addPizzaToCart(obj))
+    }
 
 
     return (
@@ -38,7 +49,8 @@ export const Home = () => {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-                {isLoaded? items.map(item => <PizzaBlock key={item.id} {...item} />):Array(10).fill(<LoadingBlock/>)}
+                {isLoaded? items.map(item => <PizzaBlock key={item.id} {...item} onAddPizza={handleAddPizza} addedCount={cartItems[item.id]&&cartItems[item.id].length} />):Array(10).fill(0)
+                    .map(( i,index) => <LoadingBlock key={index} />)}
             </div>
 
         </div>
