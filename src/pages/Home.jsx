@@ -1,10 +1,9 @@
 import React, {useCallback, useEffect} from 'react';
-import {Categories, PizzaBlock, SortPopup} from "../components";
+import {Categories, PizzaBlock, SortPopup,LoadingBlock} from "../components";
 import {useDispatch, useSelector} from "react-redux";
-import {setCategories, setSortBy} from "../redux/filters-reducer";
-import {fetchPizzas} from "../redux/pizzas-reducer";
-import LoadingBlock from "../components/PizzaBlock/LoadingBlok";
-import {addPizzaToCart} from "../redux/cart-reducer";
+import {setCategories, setSortBy} from "../redux";
+import {fetchPizzas} from "../redux";
+import {addPizzaToCart} from "../redux";
 
 
 export const Home = () => {

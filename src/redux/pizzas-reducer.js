@@ -3,12 +3,11 @@ import {pizzasAPI} from "./api";
 const SET_PIZZAS = 'SET-PIZZAS'
 const IS_LOADED = 'IS-LOADED'
 
-
 const initialState = {
     items: [{
         "id": 0,
         "imageUrl": "https://dodopizza.azureedge.net/static/Img/Products/f035c7f46c0844069722f2bb3ee9f113_584x584.jpeg",
-        "name": "Kadirikus",
+        "name": "Kadir",
         "types": [0, 1],
         "sizes": [26, 30, 40],
         "price": 803,
@@ -18,7 +17,6 @@ const initialState = {
     isLoaded: false
 
 }
-
 export const setPizzas = (items) => {
     return {
         type: SET_PIZZAS,
@@ -26,12 +24,11 @@ export const setPizzas = (items) => {
     }
 }
 const isLoaded = (value) => {
-    return  {
+    return {
         type: IS_LOADED,
-        payload:value
+        payload: value
     }
 }
-const action = setPizzas | isLoaded
 
 export const pizzasReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -48,7 +45,5 @@ export const fetchPizzas = (activeCategory, activeSortBy) => (dispatch) => {
     pizzasAPI.getPizzas(activeCategory, activeSortBy).then(response => {
         dispatch(setPizzas(response.data))
         dispatch(isLoaded(true))
-
     })
-
 }

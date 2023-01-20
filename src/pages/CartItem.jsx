@@ -1,8 +1,9 @@
 import React from 'react';
 
-const CartItem = ({name, type,size,price}) => {
-    console.log(name)
-    console.log(type)
+const CartItem = ({name, type,size,price,count,id, deleteItem}) => {
+const handleDeleteItem=(id)=>{
+    deleteItem(id)
+}
     return (
         <div className="cart__item">
             <div className="cart__item-img">
@@ -30,7 +31,7 @@ const CartItem = ({name, type,size,price}) => {
                     </svg>
 
                 </div>
-                <b>2</b>
+                <b>{count}</b>
                 <div
                     className="button button--outline button--circle cart__item-count-plus">
                     <svg width="10" height="10" viewBox="0 0 10 10"
@@ -46,9 +47,9 @@ const CartItem = ({name, type,size,price}) => {
                 </div>
             </div>
             <div className="cart__item-price">
-                <b>{price} ₽</b>
+                <b>{count*price} ₽</b>
             </div>
-            <div className="cart__item-remove">
+            <div className="cart__item-remove" onClick={()=>handleDeleteItem(id)}>
                 <div className="button button--outline button--circle">
                     <svg width="10" height="10" viewBox="0 0 10 10"
                          fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -61,12 +61,8 @@ export const Header = () => {
                             <span>{totalCount}</span></Button>
                     </div>
                 </Link>
-
-
-
         </div>
 </div>
-)
-    ;
+);
 };
 

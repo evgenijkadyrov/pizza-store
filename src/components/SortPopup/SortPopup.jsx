@@ -13,10 +13,8 @@ export const SortPopup = React.memo(({items,onClickItem,activeItem}) => {
        }
     }
     const onSelectItem=(item)=>{
-
         setVisiblePopup(false)
         onClickItem(item)
-
     }
     useEffect(()=>{
         document.body.addEventListener('click',handleOutsideClick)

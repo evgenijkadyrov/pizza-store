@@ -1,21 +1,20 @@
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
-import {filtersReducer} from "./filters-reducer";
-import {pizzasReducer} from "./pizzas-reducer";
+import {
+    applyMiddleware,
+    combineReducers,
+    compose,
+    legacy_createStore as createStore
+} from "redux";
 import thunk from "redux-thunk";
-import {cartReducer} from "./cart-reducer";
+import {cart, filters, pizzas} from './index'
 
-const rootReducer=combineReducers({
-
-        filters: filtersReducer,
-        pizzas:pizzasReducer,
-    cart:cartReducer
-
-
-}
+const rootReducer = combineReducers({
+        filters,
+        pizzas,
+        cart
+    }
 )
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(rootReducer, composeEnhancers(
-     applyMiddleware(thunk)
- ));
-//export const store=createStore(rootReducer,applyMiddleware(thunk ))
-window.store=store
+    applyMiddleware(thunk)
+));
+window.store = store

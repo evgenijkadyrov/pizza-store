@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import classNames from 'classnames'
-import {Button} from "../Button/Button";
+import {Button} from "../index";
 
 export const PizzaBlock = ({
                                id,
@@ -42,19 +42,18 @@ export const PizzaBlock = ({
                     {availableTypes.map((type, index) => <li key={type}
                                                              onClick={() => onSelectType(index)}
                                                              className={classNames({
-                                                                 active: selectType == index,
+                                                                 active: selectType === index,
                                                                  disabled: !types.includes(index)
                                                              })}>{type}</li>)}
 
                 </ul>
                 <ul>
                     {
-                        availableSizes.map((size, index) => <li
+                        availableSizes.map((size, index) => <li key={`${size}_${index}`}
                             onClick={() => onSelectItem(size)} className={classNames({
-                            active: selectSize == size,
-
+                            active: selectSize === size,
                             disabled: !sizes.includes(+size)
-                        })} key={size}>{size} см</li>)
+                        })}>{size} см</li>)
                     }
 
                 </ul>
@@ -79,8 +78,6 @@ export const PizzaBlock = ({
                 </Button>
             </div>
         </div>
-
-
     );
 };
 

@@ -18,5 +18,3 @@ export const LoadingBlock = () => (
         <rect x="109" y="404" rx="9" ry="9" width="150" height="45" />
     </ContentLoader>
 )
-
-export default LoadingBlock

@@ -12,13 +12,12 @@ export const setSortBy = (item) => {
         payload: item
     }
 }
-export const setCategories = (indexCateg) => {
+export const setCategories = (indexCategory) => {
     return {
         type: SET_CATEGORIES,
-        payload: indexCateg
+        payload: indexCategory
     }
 }
-const action = setSortBy | setCategories
 export const filtersReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_SORT_BY:
