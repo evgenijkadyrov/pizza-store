@@ -29,9 +29,9 @@ export const Home = () => {
     const onSelectedSort = useCallback((item) => {
         dispatch(setSortBy(item))
     }, [])
-    const handleAddPizza=(obj)=>{
-       dispatch(addPizzaToCart(obj))
-    }
+     const handleAddPizza=useCallback ((obj)=>{
+         dispatch(addPizzaToCart(obj))
+     },[])
 
 
     return (

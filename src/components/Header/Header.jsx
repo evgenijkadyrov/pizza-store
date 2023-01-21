@@ -4,7 +4,7 @@ import {Button} from "../index";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 
-export const Header = () => {
+export const Header = React.memo (() => {
     const {totalCount, totalPrice}=useSelector(({cart})=>({
         totalPrice:cart.totalPrice,
         totalCount:cart.totalCount
@@ -17,7 +17,7 @@ export const Header = () => {
                     <div className="header__logo">
                         <img width="38" src={logo} alt="Pizza logo"/>
                         <div>
-                            <h1>React Pizza</h1>
+                            <h1>Пицца из печи</h1>
                             <p>самая вкусная пицца во вселенной</p>
                         </div>
                     </div>
@@ -27,7 +27,7 @@ export const Header = () => {
                     <div className="header__cart">
                         <Button className={'button--cart'}>
 
-                            <span>{totalPrice} ₽</span>
+                            <span>{totalPrice} руб</span>
                             <div className="button__delimiter"></div>
                             <svg
                                 width="18"
@@ -64,5 +64,5 @@ export const Header = () => {
         </div>
 </div>
 );
-};
+});
 

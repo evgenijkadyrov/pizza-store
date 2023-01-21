@@ -1,9 +1,15 @@
 import React from 'react';
 
-const CartItem = ({name, type,size,price,count,id, deleteItem}) => {
-const handleDeleteItem=(id)=>{
-    deleteItem(id)
-}
+const CartItem =React.memo(({name, type,size,price,count,id,imageUrl, deleteItem,decrementItem,incrementItem}) => {
+    const handleDeleteItem=(id)=>{
+        deleteItem(id)
+    }
+    const handleDecrementItem=(obj)=>{
+        decrementItem(obj)
+    }
+    const handleIncrementItem=(obj)=>{
+        incrementItem(obj)
+    }
     return (
         <div className="cart__item">
             <div className="cart__item-img">
@@ -17,9 +23,9 @@ const handleDeleteItem=(id)=>{
                 <h3>{name}</h3>
                 <p>{type} тесто, {size} см.</p>
             </div>
-            <div className="cart__item-count">
-                <div
-                    className="button button--outline button--circle cart__item-count-minus">
+            <div className="cart__item-count" >
+                <div onClick={()=>handleDecrementItem({id,name,type,size})}
+                     className="button button--outline button--circle cart__item-count-minus">
                     <svg width="10" height="10" viewBox="0 0 10 10"
                          fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -31,9 +37,9 @@ const handleDeleteItem=(id)=>{
                     </svg>
 
                 </div>
-                <b>{count}</b>
-                <div
-                    className="button button--outline button--circle cart__item-count-plus">
+                <b>{count} </b>
+                <div onClick={()=>handleIncrementItem({id,name,imageUrl,price,size,type})}
+                     className="button button--outline button--circle cart__item-count-plus">
                     <svg width="10" height="10" viewBox="0 0 10 10"
                          fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -47,7 +53,7 @@ const handleDeleteItem=(id)=>{
                 </div>
             </div>
             <div className="cart__item-price">
-                <b>{count*price} ₽</b>
+                <b>{count*price} руб</b>
             </div>
             <div className="cart__item-remove" onClick={()=>handleDeleteItem(id)}>
                 <div className="button button--outline button--circle">
@@ -65,6 +71,6 @@ const handleDeleteItem=(id)=>{
             </div>
         </div>
     );
-};
+});
 
 export default CartItem;

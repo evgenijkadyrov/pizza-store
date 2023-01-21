@@ -2,19 +2,17 @@ import React, {useState} from 'react';
 import classNames from 'classnames'
 import {Button} from "../index";
 
-export const PizzaBlock = ({
-                               id,
-                               name = 'no name',
-                               imageUrl,
-                               price,
-                               sizes,
-                               types,
-                               onAddPizza,
-    addedCount
-                           }) => {
-
-    const availableTypes = ['тонкое', 'традиционное']
-    const availableSizes = ['26', '30', '40']
+export const PizzaBlock =React.memo(({
+                                         id,
+                                         name = 'no name',
+                                         imageUrl,
+                                         price,
+                                         sizes,
+                                         types,
+                                         onAddPizza,
+                                         addedCount
+                                     })=>{const availableTypes = ['тонкое', 'традиционное']
+    const availableSizes = [26, 30, 40]
     const [selectSize, setSelectSize] = useState(sizes[0])
     const [selectType, setSelectType] = useState(types[0])
 
@@ -25,8 +23,7 @@ export const PizzaBlock = ({
         setSelectType(index)
     }
     const handleAddPizza = () => {
-
-        onAddPizza({id, name, imageUrl,price, selectSize, selectType:availableTypes[selectType]})
+        onAddPizza({id, name, imageUrl,price, size:selectSize, type:availableTypes[selectType]})
     }
     return (
 
@@ -50,7 +47,7 @@ export const PizzaBlock = ({
                 <ul>
                     {
                         availableSizes.map((size, index) => <li key={`${size}_${index}`}
-                            onClick={() => onSelectItem(size)} className={classNames({
+                                                                onClick={() => onSelectItem(size)} className={classNames({
                             active: selectSize === size,
                             disabled: !sizes.includes(+size)
                         })}>{size} см</li>)
@@ -59,7 +56,7 @@ export const PizzaBlock = ({
                 </ul>
             </div>
             <div className="pizza-block__bottom">
-                <div className="pizza-block__price">от {price}</div>
+                <div className="pizza-block__price">от {price} руб</div>
                 <Button className=" button--add" onClick={handleAddPizza} >
                     <svg
                         width="12"
@@ -78,6 +75,5 @@ export const PizzaBlock = ({
                 </Button>
             </div>
         </div>
-    );
-};
+    );})
 

@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import CartItem from "./CartItem";
 import {useDispatch, useSelector} from "react-redux";
-import {clearCart, deleteItem} from "../redux";
+import {addPizzaToCart, clearCart, decrementItem, deleteItem} from "../redux";
 import {Link, useNavigate} from "react-router-dom";
 import {Button} from "../components";
+import {Modal} from "../components/Modal/Modal";
 
-export const Cart = () => {
+export const Cart =React.memo(  () => {
+    const[modalActive,setModalActive]=useState(false)
+    const[activePaymentModal,setActivePaymentModal]=useState(false)
 
     const {totalPrice, totalCount, items} = useSelector((state) => (state.cart))
     const dispatch = useDispatch()
@@ -18,18 +21,32 @@ export const Cart = () => {
         commonArr.filter(el => el === element).length,
     ]);
 
-    const handleClearCart = () => {
-        {
-            window.confirm('Do you relly want to clear cart?') && dispatch(clearCart())
-        }
+    const handleActivateModal = () => {
+        setModalActive(true)
     }
-    const handlePayment = () => {
-        alert('Payment successful')
-        dispatch(clearCart())
-        navigate('/')
-    }
-    const deleteItemFromCart = (id) => {
+const handleClearCart=()=>{
+    dispatch(clearCart())
+    setModalActive(false)
+    navigate('/')
+}
+const handleSDeactivateModal=()=>setModalActive(false)
+
+       const deleteItemFromCart =useCallback((id) => {
         dispatch(deleteItem(id))
+    },[])
+    const decrementItemFromCart= useCallback((obj)=>{
+        dispatch(decrementItem(obj))
+    },[])
+    const incrementItemFromCart=useCallback((obj)=>{
+        dispatch(addPizzaToCart(obj))
+    },[])
+    const setHandlePayment=()=>{
+        setActivePaymentModal(true)
+    }
+    const handleDeactivatePaymentModal=()=>{
+        dispatch(clearCart())
+        setActivePaymentModal(false)
+        navigate('/')
     }
     return (
         <div className="container container--cart">
@@ -53,7 +70,7 @@ export const Cart = () => {
                         </svg>
                         Корзина
                     </h2>
-                    <div className="cart__clear">
+                    <div className="cart__clear" onClick={handleActivateModal}>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <path d="M2.5 5H4.16667H17.5" stroke="#B6B6B6"
@@ -71,23 +88,26 @@ export const Cart = () => {
                                   strokeLinejoin="round"/>
                         </svg>
 
-                        <span onClick={handleClearCart}>Очистить корзину</span>
+                        <span  >Очистить корзину</span>
                     </div>
                 </div>
                 <div className="content__items">
                     {items.length && count.map((item, index) => {
                         return <CartItem key={`${item[0].name}_${index}`}
-                                         name={item[0].name} type={item[0].selectType}
-                                         size={item[0].selectSize} price={item[0].price}
+                                         name={item[0].name} type={item[0].type}
+                                         size={item[0].size} price={item[0].price}
                                          count={item[1]} id={item[0].id}
-                                         deleteItem={deleteItemFromCart}/>
+                                         deleteItem={deleteItemFromCart}
+                                         decrementItem={decrementItemFromCart}
+                                         incrementItem={incrementItemFromCart}
+                        imageUrl={item[0].imageUrl}/>
                     })}
 
                 </div>
                 <div className="cart__bottom">
                     <div className="cart__bottom-details">
                         <span> Всего пицц: <b>{totalCount} шт.</b> </span>
-                        <span> Сумма заказа: <b>{totalPrice}₽</b> </span>
+                        <span> Сумма заказа: <b>{totalPrice} руб</b> </span>
                     </div>
                     <div className="cart__bottom-buttons">
                         <a href="/"
@@ -102,13 +122,25 @@ export const Cart = () => {
                                 <span>Вернуться назад</span>
                             </Link>
                         </a>
-                        <Button className="button pay-btn" onClick={handlePayment}>
+                        <Button className="button pay-btn" onClick={setHandlePayment}>
+                            <Modal active={activePaymentModal}>
+                                <h2 className={'modal_text'}>Thanks for your order. </h2>
+                                <p> Wait call from operator.</p>
+                                <Button className={'btn'} onClick={handleDeactivatePaymentModal}>Ok</Button>
+                            </Modal>
                             <span>Оплатить сейчас</span>
                         </Button>
                     </div>
                 </div>
             </div>
+            <Modal active={modalActive} >
+                <div className={'modal_text'}>Do you really want to clear cart?</div>
+                <div className={'btn_wrapper'}>
+                    <Button className={'color btn'} onClick={handleClearCart}>Delete</Button>
+                    <Button className={'btn'} onClick={handleSDeactivateModal}>Cancel</Button></div>
+
+            </Modal>
         </div>
     );
-};
+});
 
